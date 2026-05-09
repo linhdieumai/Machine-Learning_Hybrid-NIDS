@@ -26,7 +26,7 @@ def train_anomaly_detector():
     distances = np.min(cdist(X_train_normal, kmeans.cluster_centers_, 'euclidean'), axis=1)
     
     # Lấy phân vị 99% để loại bỏ các điểm nhiễu (outliers) trong tập Normal
-    threshold = np.percentile(distances, 99)
+    threshold = np.percentile(distances, 95)
     print(f"-> Ngưỡng khoảng cách tối đa (Threshold) được thiết lập: {threshold:.4f}")
     
     # 5. Đóng gói và lưu trữ
