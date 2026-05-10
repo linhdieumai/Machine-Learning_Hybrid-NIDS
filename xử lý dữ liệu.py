@@ -47,6 +47,6 @@ np.save('X_sup_train.npy', X_sup_scaled)
 np.save('X_test_for_unsup.npy', X_test_scaled_for_unsup)
 np.save('X_test_for_sup.npy', X_test_scaled_for_sup)
 
-np.save('y_sup_train.npy', Y_sup.values)
-np.save('y_test.npy', Y_test.values)
+np.save('Y_sup_train.npy', Y_sup.values)
+np.save('Y_test.npy', Y_test.values)
 
