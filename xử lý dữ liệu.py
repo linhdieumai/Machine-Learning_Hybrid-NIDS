@@ -1,6 +1,5 @@
 import pandas as pd # trong đây có getdummies() để biến các cột chữ thành các cột nhị phân
 import numpy as np # dùng để lưu numpy array
-from sklearn.model_selection import train_test_split # hàm dùng để tách dữ 
 from sklearn.preprocessing import StandardScaler # chuẩn hóa dữ liệu dựa trên phân bố thống kê: biến đổi mean = 0 và variance = 1
 
 # Tải lên dữ liệu
@@ -27,15 +26,15 @@ Y_unsup = df_all[df_all['source'] == 'unsup']['label']
 X_sup = df_all[df_all['source'] == 'sup'].drop(['source', 'label'], axis = 1)
 Y_sup = df_all[df_all['source'] == 'sup']['label']
 
-X_unsup = df_all[df_all['source'] == 'test'].drop(['source', 'label'], axis = 1)
-Y_unsup = df_all[df_all['source'] == 'test']['label']
+X_test = df_all[df_all['source'] == 'test'].drop(['source', 'label'], axis = 1)
+Y_test = df_all[df_all['source'] == 'test']['label']
 
 # Khởi tạo bộ chuẩn hóa (StandardScaler)
 scaler_unsup = StandardScaler()
 scaler_sup = StandardScaler()
 
 # Mô hình Unsupervised: Học thông số từ tập Train Unsupervised
-X_unsup_scaled = scaled_unsup.fit_transform(X_unsup)
+X_unsup_scaled = scaler_unsup.fit_transform(X_unsup)
 X_test_scaled_for_unsup = scaler_unsup.transform(X_test) # Transform tập test để test mô hình Unsupervised
 
 # Mô hình Supervised: Học thông số từ tập Train Supervised
@@ -48,6 +47,6 @@ np.save('X_sup_train.npy', X_sup_scaled)
 np.save('X_test_for_unsup.npy', X_test_scaled_for_unsup)
 np.save('X_test_for_sup.npy', X_test_scaled_for_sup)
 
-np.save('y_sup_train.npy', y_sup.values)
-np.save('y_test.npy', y_test.values)
+np.save('y_sup_train.npy', Y_sup.values)
+np.save('y_test.npy', Y_test.values)
 
