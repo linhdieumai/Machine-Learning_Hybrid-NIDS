@@ -30,8 +30,7 @@ class HybridIDS:
     def predict_integrated(self, X_sup, X_unsup):
         """
         Kịch bản 2: Hệ thống phòng thủ 2 lớp (Zero-day Scenario)
-        Nhận 2 tập X riêng biệt vì mô hình Supervised và Unsupervised có thể 
-        được scale dữ liệu theo cách khác nhau bởi Thành viên 2.
+        Đã cập nhật logic cho thuật toán Isolation Forest.
         """
         # Bước 1: Đi qua mô hình Học có giám sát (Random Forest/XGBoost)
         final_predictions = self.tree_model.predict(X_sup)
@@ -40,14 +39,17 @@ class HybridIDS:
         normal_indices = np.where(final_predictions == 0)[0]
         
         if len(normal_indices) > 0:
-            # Lấy đúng dữ liệu của các gói tin này ở định dạng dành cho Unsupervised
             X_normal_suspects = X_unsup[normal_indices]
             
-            # Đẩy qua KMeans để đo khoảng cách
-            distances = self.anomaly_model.transform(X_normal_suspects)[:, 0]
-            anomalies_mask = (distances > self.threshold).astype(int)
+            # --- LOGIC MỚI CHO ISOLATION FOREST ---
+            # Gọi hàm predict: Trả về 1 (Gói tin bình thường) và -1 (Dị thường/Tấn công)
+            iso_preds = self.anomaly_model.predict(X_normal_suspects)
             
-            # Cập nhật kết quả: nếu KMeans báo dị thường (1), đè lên kết quả Normal (0) cũ
+            # Chuyển đổi nhãn: Nếu iso_preds là -1 (Dị thường), ta gán mask = 1 (Đánh dấu tấn công)
+            # Ngược lại gán mask = 0
+            anomalies_mask = (iso_preds == -1).astype(int)
+            
+            # Cập nhật kết quả: đè nhãn tấn công (1) lên kết quả Normal (0) cũ
             final_predictions[normal_indices] = np.maximum(
                 final_predictions[normal_indices], 
                 anomalies_mask
@@ -160,7 +162,7 @@ if __name__ == "__main__":
     print("\nKhởi tạo Hệ thống Phát hiện xâm nhập...")
     # Khởi tạo class với tên file model thực tế
     # Bạn có thể đổi 'supervised_rf_model.pkl' thành 'supervised_xgb_model.pkl' nếu muốn test thử model nào tốt hơn
-    ids = HybridIDS('supervised_rf_model.pkl', 'unsupervised_kmeans_model.pkl')
+    ids = HybridIDS('supervised_rf_model.pkl', 'unsupervised_isoforest_model.pkl')
     
     # Kịch bản 1: Chỉ chạy luồng Học có giám sát
     print("\nTiến hành chạy kịch bản 1: Random Forest Only...")
