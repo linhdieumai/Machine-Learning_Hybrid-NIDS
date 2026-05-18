@@ -11,7 +11,7 @@ class HybridIDS:
     Tích hợp Luồng 1 (Supervised - random forest) và Luồng 2 (Unsupervised - Anomaly)
     """
     def __init__(self, tree_model_path, anomaly_model_path):
-        print("Đang tải các mô hình từ Thành viên 3 và 4...")
+        print("Downloading model from members 3 and 4...")
         # Tải mô hình Cây quyết định từ TV 3
         self.tree_model = joblib.load(tree_model_path)
         
@@ -21,7 +21,7 @@ class HybridIDS:
         anomaly_data = joblib.load(anomaly_model_path)
         self.anomaly_model = anomaly_data['model']
         self.threshold = anomaly_data['threshold']
-        print("Tải mô hình thành công!")
+        print("Install model successfully!")
 
     def predict_tree_only(self, X):
         """Kịch bản 1: Chỉ đi qua hàng rào lớp 1 (random forest)"""
@@ -76,18 +76,18 @@ class Evaluator:
         
         # In báo cáo ra Terminal
         print("\n" + "="*40)
-        print("BÁO CÁO ĐÁNH GIÁ HIỆU NĂNG HỆ THỐNG")
+        print("SYSTEM PERFORMANCE EVALUATION REPORT")
         print("="*40)
-        print(f"1. CHỈ DÙNG LUỒNG 1 (Random Forest):")
-        print(f"   - Số cuộc tấn công lọt lưới (False Negatives): {fn1} gói tin")
-        print(f"   - Số gói tin sạch bị chặn nhầm (False Positives): {fp1} gói tin")
-        print(f"   - Tỷ lệ báo động nhầm (FPR): {fpr_tree:.2%}")
-        
-        print(f"\n2. HỆ THỐNG TÍCH HỢP (Luồng 1 + Luồng 2):")
-        print(f"   - Số cuộc tấn công lọt lưới (False Negatives): {fn2} gói tin")
-        print(f"     => THÀNH TÍCH: Đã chặn thêm được {fn1 - fn2} cuộc tấn công lạ (Zero-day)!")
-        print(f"   - Số gói tin sạch bị chặn nhầm (False Positives): {fp2} gói tin")
-        print(f"     => TRADE-OFF: Tỷ lệ báo động nhầm tăng {(fpr_int - fpr_tree):.2%} so với ban đầu.")
+        print(f"1. PIPELINE 1 ONLY (Random Forest):")
+        print(f"   - Missed attacks (False Negatives): {fn1} packets")
+        print(f"   - Legitimate packets blocked (False Positives): {fp1} packets")
+        print(f"   - False Positive Rate (FPR): {fpr_tree:.2%}")
+                
+        print(f"\n2. INTEGRATED SYSTEM (Pipeline 1 + Pipeline 2):")
+        print(f"   - Missed attacks (False Negatives): {fn2} packets")
+        print(f"     => ACHIEVEMENT: Blocked {fn1 - fn2} additional unknown (Zero-day) attacks!")
+        print(f"   - Legitimate packets blocked (False Positives): {fp2} packets")
+        print(f"     => TRADE-OFF: False Positive Rate increased by {(fpr_int - fpr_tree):.2%} compared to baseline.")
         print("="*40)
 
         # 2. Hiển thị Biểu đồ
@@ -102,15 +102,15 @@ class Evaluator:
         
         sns.heatmap(cm_tree, annot=True, fmt='d', cmap='Blues', 
                     xticklabels=labels, yticklabels=labels, ax=axes[0], annot_kws={"size": 14})
-        axes[0].set_title('Random Forest Only\n(Bỏ lọt nhiều tấn công lạ)', fontsize=14)
-        axes[0].set_ylabel('Nhãn Thực Tế', fontsize=12)
-        axes[0].set_xlabel('Mô Hình Dự Đoán', fontsize=12)
+        axes[0].set_title('Random Forest Only\n(Misses many unknown attacks)', fontsize=14)
+        axes[0].set_ylabel('Actual Label', fontsize=12)
+        axes[0].set_xlabel('Predicted Label', fontsize=12)
         
         sns.heatmap(cm_int, annot=True, fmt='d', cmap='Reds', 
                     xticklabels=labels, yticklabels=labels, ax=axes[1], annot_kws={"size": 14})
-        axes[1].set_title('Integrated System (Random Forest + Anomaly)\n(Bắt được tấn công lạ nhưng tăng báo nhầm)', fontsize=14)
-        axes[1].set_ylabel('Nhãn Thực Tế', fontsize=12)
-        axes[1].set_xlabel('Mô Hình Dự Đoán', fontsize=12)
+        axes[1].set_title('Integrated System (Random Forest + Anomaly)\n(Catches unknown attacks but increases False Positive)', fontsize=14)
+        axes[1].set_ylabel('Actual Label', fontsize=12)
+        axes[1].set_xlabel('Predicted Label', fontsize=12)
         
         plt.tight_layout()
         plt.show()
@@ -118,8 +118,8 @@ class Evaluator:
     @staticmethod
     def plot_tradeoff(fn_tree, fn_int, fp_tree, fp_int):
         """Vẽ biểu đồ cột phân tích sự đánh đổi (Trade-off)"""
-        labels = ['Bỏ lọt tấn công (FN)\n(Càng thấp càng an toàn)', 
-                  'Báo động nhầm (FP)\n(Sự đánh đổi: Gây phiền nhiễu)']
+        labels = ['False Negative\n(Lower is safer)', 
+                  'False Positive\n(Trade-off: Annoyance)']
         tree_scores = [fn_tree, fp_tree]
         int_scores = [fn_int, fp_int]
 
@@ -127,11 +127,11 @@ class Evaluator:
         width = 0.35
 
         fig, ax = plt.subplots(figsize=(9, 6))
-        rects1 = ax.bar(x - width/2, tree_scores, width, label='Chỉ dùng Random Forest', color='#3498db')
-        rects2 = ax.bar(x + width/2, int_scores, width, label='Hệ thống Tích hợp', color='#e74c3c')
+        rects1 = ax.bar(x - width/2, tree_scores, width, label='Random Forest Only', color='#3498db')
+        rects2 = ax.bar(x + width/2, int_scores, width, label='The Integrated System', color='#e74c3c')
 
-        ax.set_ylabel('Số lượng gói tin', fontsize=12)
-        ax.set_title('Phân tích Sự Đánh Đổi (Trade-off Analysis)', fontsize=16, fontweight='bold')
+        ax.set_ylabel('Number of Packets', fontsize=12)
+        ax.set_title('Trade-off Analysis', fontsize=16, fontweight='bold')
         ax.set_xticks(x)
         ax.set_xticklabels(labels, fontsize=11)
         ax.legend(fontsize=12)
@@ -147,7 +147,7 @@ class Evaluator:
 # KHỐI LỆNH THỰC THI VỚI DỮ LIỆU THẬT
 # ==========================================
 if __name__ == "__main__":
-    print("Đang tải tập dữ liệu NumPy từ Thành viên 2...")
+    print("Loading NumPy datasets from Member 2...")
     # Tải các ma trận đặc trưng (Features)
     X_test_sup = np.load('X_test_for_sup.npy')
     X_test_unsup = np.load('X_test_for_unsup.npy')
@@ -155,21 +155,21 @@ if __name__ == "__main__":
     # Tải nhãn thực tế (Labels)
     y_test = np.load('y_test.npy')
     
-    print(f"Kích thước tập Test Supervised: {X_test_sup.shape}")
-    print(f"Kích thước tập Test Unsupervised: {X_test_unsup.shape}")
-    print(f"Số lượng nhãn Test: {y_test.shape}")
+    print(f"Supervised Test set shape: {X_test_sup.shape}")
+    print(f"Unsupervised Test set shape: {X_test_unsup.shape}")
+    print(f"Test labels shape: {y_test.shape}")
 
-    print("\nKhởi tạo Hệ thống Phát hiện xâm nhập...")
+    print("\nInitializing Intrusion Detection System...")
     # Khởi tạo class với tên file model thực tế
     # Bạn có thể đổi 'supervised_rf_model.pkl' thành 'supervised_xgb_model.pkl' nếu muốn test thử model nào tốt hơn
     ids = HybridIDS('supervised_rf_model.pkl', 'unsupervised_isoforest_model.pkl')
     
     # Kịch bản 1: Chỉ chạy luồng Học có giám sát
-    print("\nTiến hành chạy kịch bản 1: Random Forest Only...")
+    print("\nRunning Scenario 1: Random Forest Only...")
     preds_tree = ids.predict_tree_only(X_test_sup)
     
     # Kịch bản 2: Chạy hệ thống tích hợp
-    print("Tiến hành chạy kịch bản 2: Hệ thống Tích hợp 2 lớp (RF + KMeans)...")
+    print("Running Scenario 2: 2-Layer Integrated System (RF + KMeans)...")
     # Truyền cả 2 tập X vào để các mô hình dùng đúng định dạng dữ liệu
     preds_integrated = ids.predict_integrated(X_test_sup, X_test_unsup)
     
