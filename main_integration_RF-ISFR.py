@@ -108,7 +108,7 @@ class Evaluator:
         
         sns.heatmap(cm_int, annot=True, fmt='d', cmap='Reds', 
                     xticklabels=labels, yticklabels=labels, ax=axes[1], annot_kws={"size": 14})
-        axes[1].set_title('Integrated System (Random Forest + Anomaly)\n(Catches unknown attacks but increases False Positive)', fontsize=14)
+        axes[1].set_title('Integrated System (Random Forest + IsoForest)\n(Catches unknown attacks but increases False Positive)', fontsize=14)
         axes[1].set_ylabel('Actual Label', fontsize=12)
         axes[1].set_xlabel('Predicted Label', fontsize=12)
         
@@ -169,7 +169,7 @@ if __name__ == "__main__":
     preds_tree = ids.predict_tree_only(X_test_sup)
     
     # Kịch bản 2: Chạy hệ thống tích hợp
-    print("Running Scenario 2: 2-Layer Integrated System (RF + KMeans)...")
+    print("Running Scenario 2: 2-Layer Integrated System (RF + IsoForest)...")
     # Truyền cả 2 tập X vào để các mô hình dùng đúng định dạng dữ liệu
     preds_integrated = ids.predict_integrated(X_test_sup, X_test_unsup)
     
