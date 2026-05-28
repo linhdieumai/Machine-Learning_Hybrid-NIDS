@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import joblib
 
 from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler
@@ -99,3 +100,5 @@ disp = ConfusionMatrixDisplay(
 disp.plot(cmap="Blues")
 plt.title("Confusion Matrix - SVM")
 plt.show()
+
+joblib.dump(model, 'supervised_svm_model.pkl')
