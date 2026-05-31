@@ -31,6 +31,7 @@
   <li><b>Supervised Learning</b> : High-accuracy classification of known attack signatures (e.g., Neptune, Smurf).</li>
  <li><b>Unsupervised Learning</b> : Detection of novel "Zero-day" anomalies based on statistical deviations and distance thresholds.</li>
 </ul>
+
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- PROJECT FILES DESCRIPTION -->
