@@ -12,16 +12,16 @@
     <li><a href="#overview"> ➤ Overview</a></li>
     <li><a href="#project-files-description"> ➤ Project Files Description</a></li>
     <li><a href="#requirements"> ➤ Requirements </a></li>
-    <li><a href="#scenario2"> ➤ Execution Instructions  </a></li>
-    <li><a href="#scenario3"> ➤ Experimental Results  </a></li>
-    <li><a href="#scenario4"> ➤ Contributors </a></li>
+    <li><a href="#execution-instructions"> ➤ Execution Instructions  </a></li>
+    <li><a href="#experimental-results"> ➤ Experimental Results  </a></li>
+    <li><a href="#contributors"> ➤ Contributors </a></li>
   </ol>
 </details>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- OVERVIEW -->
-<h2 id="overview"> :cloud: Overview</h2>
+<h2 id="overview">Overview</h2>
 
 <p align="justify"> 
   This project implements a Hybrid NIDS framework designed to handle modern network threats. By leveraging the NSL-KDD dataset, the system employs a two-tier approach:
@@ -34,7 +34,7 @@
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- PROJECT FILES DESCRIPTION -->
-<h2 id="project-files-description"> :floppy_disk: Project Files Description</h2>
+<h2 id="project-files-description">Project Files Description</h2>
 
 <ul>
   <li><b>xử lý dữ liệu.py</b> - Data preprocessing: converts raw CSV datasets into optimized '.npy' arrays.</li>
@@ -61,7 +61,7 @@ Implementation and training of the Random Forest supervised classifier.</li>
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- REQUIREMENTS -->
-<h2 id="requirements"> :book: Requirements</h2>
+<h2 id="requirements">Requirements</h2>
 
 <p>Ensure you have Python installed, then run the following command to install the necessary libraries:</p>
 <pre><code>pip install numpy pandas scikit-learn joblib xgboost scipy</code></pre>
@@ -69,7 +69,7 @@ Implementation and training of the Random Forest supervised classifier.</li>
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- EXECUTION INSTRUCTIONS -->
-<h2 id="execution-instructions"> :book: Execution Instructions</h2>
+<h2 id="execution-instructions">Execution Instructions</h2>
 
 <div align="left">
   <p>Follow the steps below to prepare the data, train models, and deploy the hybrid system:</p>
@@ -106,7 +106,7 @@ Implementation and training of the Random Forest supervised classifier.</li>
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- EXPERIMENTAL RESULTS -->
-<h2 id="experimental-results"> :book:Experimental Results</h2>
+<h2 id="experimental-results">Experimental Results</h2>
 
 <p>The system's performance was evaluated using the NSL-KDD test set. Below are the visual results for the XGBoost component, which demonstrated high accuracy in identifying various attack types:
 </p>
@@ -129,7 +129,7 @@ Implementation and training of the Random Forest supervised classifier.</li>
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- CONTRIBUTORS -->
-<h2 id="contributors"> :book:Contributors</h2>
+<h2 id="contributors">Contributors</h2>
 
 <p>This project was developed by a team of students:
 </p>
